@@ -35,7 +35,7 @@ public class PostResourceTest {
   @Test
   @DisplayName("Should create a post for a user")
   public void createPostTest() {
-   var postRequest = CreatePostRequest.builder().text("Some text").build();
+    var postRequest = CreatePostRequest.builder().text("Some text").build();
 
     given()
       .contentType(ContentType.JSON)
@@ -45,6 +45,23 @@ public class PostResourceTest {
       .post()
     .then()
       .statusCode(201);    
+  }
+
+  @Test
+  @DisplayName("Should return 404 when trying to make a post for an inexistent user")
+  public void postForAnInexistentUserTest() {
+    var postRequest = CreatePostRequest.builder().text("Some text").build();
+
+    var inexistentUserId = 999;
+
+    given()
+      .contentType(ContentType.JSON)
+      .body(postRequest)
+      .pathParam("userId", inexistentUserId)
+    .when()
+      .post()
+    .then()
+      .statusCode(404);    
   }
   
 }
