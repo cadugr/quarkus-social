@@ -142,4 +142,33 @@ public class FollowerResourceTest {
 
   }
 
+  @Test
+  @DisplayName("Should return 404 on unfollow user and User id doesn't exist")
+  public void userNotFoundWhenUnfollowingAUserTest() {
+    
+    var inexistentUserId = 999;
+    
+    given()
+        .pathParam("userId", inexistentUserId)
+        .queryParam("followerId", followerId)
+    .when()
+        .delete()
+    .then()
+        .statusCode(Response.Status.NOT_FOUND.getStatusCode());        
+
+  }
+
+  @Test
+  @DisplayName("Should Unfollow an user")
+  public void unfollowUserTest() {
+    given()
+        .pathParam("userId", userId)
+        .queryParam("followerId", followerId)
+    .when()
+        .delete()
+    .then()
+        .statusCode(Response.Status.NO_CONTENT.getStatusCode());        
+
+  }
+
 }
